@@ -71,6 +71,10 @@ exports.activateAccount = async (req, res, next) => {
 
 		const { firstName, lastName, email, password } = decoded
 
+		if (await User.findOne({ email })) {
+			throw new Error('User is already verified')
+		}
+
 		const hashedPassword = await bcrypt.hash(password, 12)
 
 		const user = await User.create({
