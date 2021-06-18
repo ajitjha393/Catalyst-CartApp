@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 const authRoutes = require('./routes/auth')
+const productRoutes = require('./routes/product')
+
 const { credentials } = require('./utils/credentials')
 
 const app = express()
@@ -19,6 +21,7 @@ app.use((_, res, next) => {
 })
 
 app.use('/auth', authRoutes)
+app.use('/product', productRoutes)
 
 // General Express Error Handling middleware
 
