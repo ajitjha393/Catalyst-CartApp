@@ -51,3 +51,35 @@ exports.addProduct = async (req, res, next) => {
 		next(err)
 	}
 }
+
+exports.deleteProduct = async (req, res, next) => {
+	try {
+		const { productId } = req.params
+
+		// Will get this from auth middleware after extracting it, for now harcoding it
+		const userId = '60cc78ee041ad9f592275026'
+
+		const product = await Product.findById(productId)
+		if (!product) {
+			createError(404, 'Could Not Find a post.')
+		}
+		// This Check ensures only the user who created that product can delete as well
+
+		if (product.userId.toString() !== userId) {
+			createError(403, 'Not Authorized for Deleting This Product')
+		}
+
+		const result = await Product.findByIdAndRemove(productId)
+
+		return res.status(200).json({
+			message: 'Product Deleted Successfully',
+			post: result,
+		})
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+
+		next(err)
+	}
+}
