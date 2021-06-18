@@ -2,7 +2,7 @@ const User = require('../models/user')
 const { validationResult } = require('express-validator/check')
 const jwt = require('jsonwebtoken')
 const sendEmail = require('../utils/sendEmail')
-// const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 
 exports.register = async (req, res, next) => {
 	try {
@@ -60,5 +60,32 @@ exports.register = async (req, res, next) => {
 		}
 
 		next(err)
+	}
+}
+
+exports.activateAccount = async (req, res, next) => {
+	try {
+		const { activateToken: token } = req.body
+
+		const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+
+		const { firstName, lastName, email, password } = decoded
+
+		const hashedPassword = await bcrypt.hash(password, 12)
+
+		const user = await User.create({
+			firstName,
+			lastName,
+			email,
+			password: hashedPassword,
+			cart: { items: [] },
+		})
+
+		return res.status(201).json({
+			success: true,
+			token: user.getSignedJwtToken(),
+		})
+	} catch (error) {
+		next(error)
 	}
 }

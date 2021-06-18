@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const jwt = require('jsonwebtoken')
 
 const userSchema = new Schema({
 	firstName: {
@@ -38,5 +39,17 @@ const userSchema = new Schema({
 		],
 	},
 })
+
+userSchema.methods.getSignedJwtToken = function () {
+	return jwt.sign(
+		{
+			id: this._id,
+		},
+		process.env.JWT_SECRET_KEY,
+		{
+			expiresIn: '1h',
+		}
+	)
+}
 
 module.exports = model('User', userSchema)
