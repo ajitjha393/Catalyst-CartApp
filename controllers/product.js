@@ -2,6 +2,23 @@ const { validationResult } = require('express-validator/check')
 const Product = require('../models/product')
 const { createError } = require('../utils/createError')
 
+exports.getAllProducts = async (req, res, next) => {
+	try {
+		const products = await Product.find().populate('userId')
+
+		return res.status(200).json({
+			message: 'Fetching all products...',
+			products,
+		})
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+
+		next(err)
+	}
+}
+
 exports.addProduct = async (req, res, next) => {
 	try {
 		const errors = validationResult(req)
