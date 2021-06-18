@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator/check')
 const jwt = require('jsonwebtoken')
 const sendEmail = require('../utils/sendEmail')
 const bcrypt = require('bcryptjs')
+const { createError } = require('../utils/createError')
 
 exports.register = async (req, res, next) => {
 	try {
@@ -91,5 +92,33 @@ exports.activateAccount = async (req, res, next) => {
 		})
 	} catch (error) {
 		next(error)
+	}
+}
+
+exports.login = async (req, res, next) => {
+	try {
+		const { email, password } = req.body
+
+		const user = await User.findOne({ email })
+		if (!user) {
+			return createError(401, 'Cannot find User with this email!')
+		}
+
+		if (!(await bcrypt.compare(password, user.password))) {
+			return createError(401, 'Wrong Password')
+		}
+
+		const token = user.getSignedJwtToken()
+
+		return res.status(200).json({
+			token,
+			userId: user._id.toString(),
+		})
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+
+		next(err)
 	}
 }
