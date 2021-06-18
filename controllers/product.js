@@ -52,6 +52,47 @@ exports.addProduct = async (req, res, next) => {
 	}
 }
 
+exports.updateProduct = async (req, res, next) => {
+	try {
+		const errors = validationResult(req)
+		if (!errors.isEmpty()) {
+			createError(422, 'Validation Failed, Entered Data is incorrect')
+		}
+
+		// Will get this from auth middleware after extracting it, for now harcoding it
+		const userId = '60cc78ee041ad9f592275026'
+
+		const { productId } = req.params
+
+		const { price, quantity } = req.body
+
+		const product = await Product.findById(productId)
+		if (!product) {
+			createError(404, 'Could Not Find a post.')
+		}
+
+		if (product.userId.toString() !== userId) {
+			createError(403, 'Not Authorized for Editing This Product')
+		}
+
+		product.price = price
+		product.quantity = quantity
+
+		const result = await product.save()
+
+		return res.status(200).json({
+			message: 'Product Updated',
+			product: result,
+		})
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+		}
+
+		next(err)
+	}
+}
+
 exports.deleteProduct = async (req, res, next) => {
 	try {
 		const { productId } = req.params
