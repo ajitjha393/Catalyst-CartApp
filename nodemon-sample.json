@@ -4,6 +4,8 @@
 		"MONGO_PASSWORD": "",
 		"MONGO_DEFAULT_DATABASE": "",
 		"JWT_SECRET_KEY": "",
-		"SENDGRID_API_KEY": ""
+		"SENDGRID_API_KEY": "",
+		"EMAIL_FROM": "",
+		"FRONT_END_URI": ""
 	}
 }
