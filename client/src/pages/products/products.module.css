@@ -1,0 +1,11 @@
+.Products {
+	display: flex;
+	flex-flow: wrap;
+
+	justify-content: center;
+	align-items: center;
+}
+
+.title {
+	margin: 1.5rem 0;
+}
