@@ -1,7 +1,9 @@
 import { init } from '@rematch/core'
-// import * as models from './models'
+import { product } from './models/product'
 
-const models = {}
+const models = {
+	product,
+}
 const store = init({ models })
 
 export default store
