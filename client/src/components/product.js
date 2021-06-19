@@ -5,7 +5,16 @@ import { FaEdit } from 'react-icons/fa'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 
 function Product(props) {
-	const { title, description, imageUrl, quantity, price, edit } = props
+	const {
+		title,
+		description,
+		imageUrl,
+		quantity,
+		price,
+		edit,
+		editProduct,
+		deleteProduct,
+	} = props
 
 	let actionBtn = (
 		<Button overrides={{ BaseButton: { style: { width: '100%' } } }}>
@@ -15,10 +24,10 @@ function Product(props) {
 	if (edit) {
 		actionBtn = (
 			<div className={classes.IconContainer}>
-				<span onClick={}>
+				<span onClick={() => editProduct({ price, quantity })}>
 					<FaEdit />
 				</span>
-				<span onClick={}>
+				<span onClick={() => deleteProduct()}>
 					<RiDeleteBin5Fill />
 				</span>
 			</div>
@@ -35,8 +44,13 @@ function Product(props) {
 				<StyledBody>
 					{description}
 
-					<div className={classes.Price}>Price: Rs {price} </div>
-					<div className={classes.Price}>Qty : {quantity} </div>
+					<div>
+						Price :{' '}
+						<span className={classes.Price}>Rs {price}</span>
+					</div>
+					<div>
+						Qty : <span className={classes.Price}> {quantity}</span>
+					</div>
 				</StyledBody>
 				<StyledAction>{actionBtn}</StyledAction>
 			</Card>
