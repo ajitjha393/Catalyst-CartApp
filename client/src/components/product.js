@@ -1,9 +1,30 @@
 import { Card, StyledBody, StyledAction } from 'baseui/card'
 import { Button } from 'baseui/button'
 import classes from './product.module.css'
+import { FaEdit } from 'react-icons/fa'
+import { RiDeleteBin5Fill } from 'react-icons/ri'
 
 function Product(props) {
-	const { title, description, imageUrl, quantity, price } = props
+	const { title, description, imageUrl, quantity, price, edit } = props
+
+	let actionBtn = (
+		<Button overrides={{ BaseButton: { style: { width: '100%' } } }}>
+			Add to Cart
+		</Button>
+	)
+	if (edit) {
+		actionBtn = (
+			<div className={classes.IconContainer}>
+				<span onClick={}>
+					<FaEdit />
+				</span>
+				<span onClick={}>
+					<RiDeleteBin5Fill />
+				</span>
+			</div>
+		)
+	}
+
 	return (
 		<div className={classes.Product}>
 			<Card
@@ -17,16 +38,8 @@ function Product(props) {
 					<div className={classes.Price}>Price: Rs {price} </div>
 					<div className={classes.Price}>Qty : {quantity} </div>
 				</StyledBody>
-				<StyledAction>
-					<Button
-						overrides={{ BaseButton: { style: { width: '100%' } } }}
-					>
-						Add to Cart
-					</Button>
-				</StyledAction>
+				<StyledAction>{actionBtn}</StyledAction>
 			</Card>
-
-			{/*  */}
 		</div>
 	)
 }

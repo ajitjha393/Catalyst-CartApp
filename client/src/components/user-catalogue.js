@@ -22,9 +22,9 @@ function UserCatalogue({ userId, productCount, name }) {
 	}
 
 	return (
-		<div onClick={viewCatalogue}>
+		<div>
 			<Card overrides={cardStyles}>
-				<div className={classes.Container}>
+				<div className={classes.Container} onClick={viewCatalogue}>
 					<img
 						src={`https://randomuser.me/api/portraits/men/${random(
 							0,
