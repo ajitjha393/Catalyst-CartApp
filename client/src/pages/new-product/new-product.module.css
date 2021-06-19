@@ -1,0 +1,22 @@
+.form {
+	margin: 1.5rem auto;
+	width: 70%;
+	max-width: 30rem;
+	text-align: left;
+}
+
+.header {
+	margin: 1.5rem;
+	text-align: center;
+	text-decoration: underline;
+}
+
+.actions {
+	text-align: center;
+}
+.actions button {
+	/* display: flex; */
+
+	margin: 0 2rem;
+	padding: 1rem 1.5em;
+}
