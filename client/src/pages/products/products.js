@@ -4,12 +4,14 @@ import { connect } from 'react-redux'
 import Product from '../../components/product'
 import Modal from '../../components/ui/product-modal'
 import classes from './products.module.css'
+import Spinner from '../../components/ui/spinner'
 
 function Products({ listings }) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [del, setDel] = useState(false)
 
 	const [prodId, setProdId] = useState(null)
+	const [loading, setLoading] = useState(false)
 
 	const { userId } = useParams()
 	const { search } = useLocation()
@@ -40,7 +42,9 @@ function Products({ listings }) {
 		setIsOpen(true)
 	}
 
-	return (
+	return loading ? (
+		<Spinner />
+	) : (
 		<div>
 			<h2 className={classes.title}>Product Catalogue of {name}</h2>
 			<div className={classes.Products}>
@@ -59,6 +63,7 @@ function Products({ listings }) {
 				setOpen={setIsOpen}
 				prodId={prodId}
 				del={del}
+				setLoading={setLoading}
 			/>
 		</div>
 	)

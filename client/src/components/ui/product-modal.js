@@ -9,7 +9,7 @@ import axios from 'axios'
 
 const BASE_ENDPOINT = 'http://localhost:8080/product'
 
-function ProductModal({ open, setOpen, prodId, del, setListings }) {
+function ProductModal({ open, setOpen, prodId, del, setListings, setLoading }) {
 	const [price, setPrice] = useState('')
 	const [quantity, setQuantity] = useState('')
 
@@ -20,14 +20,32 @@ function ProductModal({ open, setOpen, prodId, del, setListings }) {
 			quantity,
 			prodId,
 		})
+		const editProductData = {
+			price: +price.trim(),
+			quantity: +quantity.trim(),
+		}
+		for (let [k, v] of Object.entries(editProductData)) {
+			if (v === 0) {
+				alert(`${k} cannot be empty...`)
+
+				return
+			}
+			if (Number.isNaN(v)) {
+				alert(`${k} has to be a number `)
+				return
+			}
+		}
+
+		setLoading(true)
+
 		axios
 			.patch(`${BASE_ENDPOINT}/${prodId}`, {
 				price,
 				quantity,
 			})
 			.then(({ data }) => {
-				// will add spinner here
 				console.log(data)
+				setLoading(false)
 				setListings(data.allProducts)
 			})
 			.catch((err) => console.log(err))
@@ -36,10 +54,11 @@ function ProductModal({ open, setOpen, prodId, del, setListings }) {
 	const deleteProduct = () => {
 		console.log('Deleting...', prodId)
 		setOpen(false)
+		setLoading(true)
 		axios
 			.delete(`${BASE_ENDPOINT}/${prodId}`)
 			.then(({ data }) => {
-				// will add spinner here
+				setLoading(false)
 				console.log(data)
 				setListings(data.allProducts)
 			})

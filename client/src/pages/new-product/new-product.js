@@ -7,6 +7,7 @@ import classes from './new-product.module.css'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import Spinner from '../../components/ui/spinner'
 
 const BASE_ENDPOINT = 'http://localhost:8080/product'
 
@@ -16,6 +17,7 @@ function NewProduct({ setListings }) {
 	const [quantity, setQuantity] = useState('')
 	const [imageUrl, setImageUrl] = useState('')
 	const [description, setDescription] = useState('')
+	const [loading, setLoading] = useState(false)
 
 	const history = useHistory()
 
@@ -28,6 +30,7 @@ function NewProduct({ setListings }) {
 			description: description.trim(),
 			imageUrl,
 		}
+
 		for (let [k, v] of Object.entries(product)) {
 			if (v === '' || v === 0) {
 				alert(`${k} cannot be empty...`)
@@ -38,12 +41,13 @@ function NewProduct({ setListings }) {
 				return
 			}
 		}
+		setLoading(true)
 
 		axios
 			.post(BASE_ENDPOINT, product)
 			.then(({ data }) => {
-				// will add spinner here
 				console.log(data)
+				setLoading(false)
 				setListings(data.allProducts)
 				history.push('/')
 			})
@@ -60,7 +64,9 @@ function NewProduct({ setListings }) {
 		setDescription('')
 	}
 
-	return (
+	return loading ? (
+		<Spinner />
+	) : (
 		<>
 			<h2 className={classes.header}>Add New Product!</h2>
 			<div className={classes.form}>
