@@ -4,9 +4,14 @@ import { FormControl } from 'baseui/form-control'
 import { Input } from 'baseui/input'
 import classes from './login.module.css'
 
-function LoginPage() {
+import { connect } from 'react-redux'
+import Spinner from '../../components/ui/spinner'
+import axios from 'axios'
+
+function LoginPage({ setAuthToken }) {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [loading, setLoading] = useState(false)
 
 	const loginHandler = () => {
 		// Added basic validation
@@ -22,10 +27,25 @@ function LoginPage() {
 		}
 
 		console.log(loginData)
+		setLoading(true)
+
 		// axios request for login
+		axios
+			.post('http://localhost:8080/auth/login', loginData)
+			.then(({ data }) => {
+				console.log(data)
+				setLoading(false)
+				setAuthToken({ token: data.token, userId: data.userId })
+			})
+			.catch((err) => {
+				setLoading(false)
+				console.log(err)
+			})
 	}
 
-	return (
+	return loading ? (
+		<Spinner />
+	) : (
 		<>
 			<h2 className={classes.header}>User Login!</h2>
 			<div className={classes.form}>
@@ -57,4 +77,8 @@ function LoginPage() {
 	)
 }
 
-export default LoginPage
+const mapDispatch = (dispatch) => ({
+	setAuthToken: (authPayload) => dispatch.user.setAuthToken(authPayload),
+})
+
+export default connect(null, mapDispatch)(LoginPage)

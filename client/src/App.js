@@ -1,5 +1,3 @@
-import { Provider } from 'react-redux'
-import store from './store'
 import './App.css'
 import Listings from './pages/listings/listings'
 import Products from './pages/products/products'
@@ -7,38 +5,53 @@ import Navbar from './components/navbar'
 import NewProduct from './pages/new-product/new-product'
 import Login from './pages/login/login'
 import SignUp from './pages/signup/signup'
+import { useEffect } from 'react'
+import { connect } from 'react-redux'
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-function App() {
+function App({ authenticated, verifyToken }) {
+	useEffect(() => {
+		verifyToken()
+		if (authenticated) {
+			console.log('Authenticated...')
+		}
+	}, [authenticated, verifyToken])
+
 	return (
-		<Provider store={store}>
-			<BrowserRouter>
-				<div className="App">
-					<header>
-						<Navbar />
-					</header>
-					<Switch>
-						<Route exact path="/catalogue">
-							<Listings />
-						</Route>
-						<Route exact path="/catalogue/:userId">
-							<Products />
-						</Route>
-						<Route exact path="/new-product">
-							<NewProduct />
-						</Route>
-						<Route exact path="/login">
-							<Login />
-						</Route>
-						<Route exact path="/signup">
-							<SignUp />
-						</Route>
-					</Switch>
-				</div>
-			</BrowserRouter>
-		</Provider>
+		<BrowserRouter>
+			<div className="App">
+				<header>
+					<Navbar />
+				</header>
+				<Switch>
+					<Route exact path="/catalogue">
+						<Listings />
+					</Route>
+					<Route exact path="/catalogue/:userId">
+						<Products />
+					</Route>
+					<Route exact path="/new-product">
+						<NewProduct />
+					</Route>
+					<Route exact path="/login">
+						<Login />
+					</Route>
+					<Route exact path="/signup">
+						<SignUp />
+					</Route>
+				</Switch>
+			</div>
+		</BrowserRouter>
 	)
 }
 
-export default App
+const mapState = (state) => ({
+	authenticated: state.user.authenticated,
+})
+
+const mapDispatch = (dispatch) => ({
+	verifyToken: dispatch.user.verifyExistingToken,
+})
+
+export default connect(mapState, mapDispatch)(App)
