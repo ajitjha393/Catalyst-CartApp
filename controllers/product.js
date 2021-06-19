@@ -42,6 +42,7 @@ exports.addProduct = async (req, res, next) => {
 		return res.status(201).json({
 			message: 'Succesfully added new Product',
 			product,
+			allProducts: await Product.find().populate('userId'),
 		})
 	} catch (err) {
 		if (!err.statusCode) {
@@ -83,6 +84,7 @@ exports.updateProduct = async (req, res, next) => {
 		return res.status(200).json({
 			message: 'Product Updated',
 			product: result,
+			allProducts: await Product.find().populate('userId'),
 		})
 	} catch (err) {
 		if (!err.statusCode) {
@@ -114,7 +116,8 @@ exports.deleteProduct = async (req, res, next) => {
 
 		return res.status(200).json({
 			message: 'Product Deleted Successfully',
-			post: result,
+			product: result,
+			allProducts: await Product.find().populate('userId'),
 		})
 	} catch (err) {
 		if (!err.statusCode) {
