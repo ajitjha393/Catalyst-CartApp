@@ -1,18 +1,25 @@
 import { Provider } from 'react-redux'
 import store from './store'
 import './App.css'
-import Listings from './components/listings'
+import Listings from './pages/listings/listings'
 import Navbar from './components/navbar'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 function App() {
 	return (
 		<Provider store={store}>
-			<div className="App">
-				<header>
-					<Navbar />
-				</header>
-				<Listings />
-			</div>
+			<BrowserRouter>
+				<div className="App">
+					<header>
+						<Navbar />
+					</header>
+					<Switch>
+						<Route exact path="/">
+							<Listings />
+						</Route>
+					</Switch>
+				</div>
+			</BrowserRouter>
 		</Provider>
 	)
 }
