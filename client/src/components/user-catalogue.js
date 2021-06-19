@@ -1,7 +1,7 @@
 import { Card, StyledBody, StyledAction } from 'baseui/card'
-import { Button } from 'baseui/button'
 import classes from './user-catalogue.module.css'
 import { random } from '../utils/random'
+import { useHistory } from 'react-router-dom'
 
 const cardStyles = {
 	Root: {
@@ -15,8 +15,13 @@ const cardStyles = {
 }
 
 function UserCatalogue({ userId, productCount, name }) {
+	const history = useHistory()
+	const viewCatalogue = () => {
+		history.push(`/${userId}`)
+	}
+
 	return (
-		<div>
+		<div onClick={viewCatalogue}>
 			<Card overrides={cardStyles}>
 				<div className={classes.Container}>
 					<img

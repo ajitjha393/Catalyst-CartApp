@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import UserCatalogue from './user-catalogue'
+import UserCatalogue from '../../components/user-catalogue'
 
 function Listings({ listings, setListings }) {
 	useEffect(() => {
