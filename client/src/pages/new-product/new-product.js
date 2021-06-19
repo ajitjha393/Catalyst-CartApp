@@ -4,13 +4,61 @@ import { Input } from 'baseui/input'
 import { Textarea } from 'baseui/textarea'
 import { Button, KIND as ButtonKind } from 'baseui/button'
 import classes from './new-product.module.css'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
-function NewProduct() {
+const BASE_ENDPOINT = 'http://localhost:8080/product'
+
+function NewProduct({ setListings }) {
 	const [title, setTitle] = useState('')
 	const [price, setPrice] = useState('')
 	const [quantity, setQuantity] = useState('')
 	const [imageUrl, setImageUrl] = useState('')
 	const [description, setDescription] = useState('')
+
+	const history = useHistory()
+
+	const addNewProduct = () => {
+		// Added basic validation
+		const product = {
+			title: title.trim(),
+			price: +price.trim(),
+			quantity: +quantity.trim(),
+			description: description.trim(),
+			imageUrl,
+		}
+		for (let [k, v] of Object.entries(product)) {
+			if (v === '' || v === 0) {
+				alert(`${k} cannot be empty...`)
+				return
+			}
+			if (Number.isNaN(v)) {
+				alert(`${k} has to be a number `)
+				return
+			}
+		}
+
+		axios
+			.post(BASE_ENDPOINT, product)
+			.then(({ data }) => {
+				// will add spinner here
+				console.log(data)
+				setListings(data.allProducts)
+				history.push('/')
+			})
+			.catch((err) => console.log(err))
+
+		console.log(product)
+	}
+
+	const clearInputFields = () => {
+		setTitle('')
+		setPrice('')
+		setQuantity('')
+		setImageUrl('')
+		setDescription('')
+	}
 
 	return (
 		<>
@@ -50,6 +98,7 @@ function NewProduct() {
 						onChange={(event) =>
 							setImageUrl(event.currentTarget.value)
 						}
+						type="url"
 					/>
 				</FormControl>
 
@@ -64,17 +113,20 @@ function NewProduct() {
 				</FormControl>
 				<div className={classes.actions}>
 					<Button
-						onClick={() => alert('click')}
+						onClick={clearInputFields}
 						kind={ButtonKind.secondary}
 					>
 						RESET
 					</Button>
 
-					<Button onClick={() => alert('click')}> ADD </Button>
+					<Button onClick={addNewProduct}> ADD </Button>
 				</div>
 			</div>
 		</>
 	)
 }
 
-export default NewProduct
+const mapDispatch = (dispatch) => ({
+	setListings: (listing) => dispatch.product.setListings(listing),
+})
+export default connect(null, mapDispatch)(NewProduct)
