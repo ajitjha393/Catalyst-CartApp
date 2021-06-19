@@ -11,7 +11,27 @@ function SignUpPage() {
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
 
-	const signUpHandler = () => {}
+	const signUpHandler = () => {
+		// Added basic validation
+		const signupData = {
+			firstName: firstName.trim(),
+			lastName: lastName.trim(),
+			email: email.trim(),
+			password: password.trim(),
+		}
+		for (let [k, v] of Object.entries(signupData)) {
+			if (v === '') {
+				alert(`Incorrect ${k} provided ...`)
+				return
+			}
+			if (k === 'password' && v !== confirmPassword) {
+				alert('Passwords do not match...')
+				return
+			}
+		}
+		console.log(signupData)
+		// axios request for login
+	}
 
 	return (
 		<>

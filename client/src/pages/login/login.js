@@ -8,7 +8,22 @@ function LoginPage() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
-	const loginHandler = () => {}
+	const loginHandler = () => {
+		// Added basic validation
+		const loginData = {
+			email: email.trim(),
+			password: password.trim(),
+		}
+		for (let [k, v] of Object.entries(loginData)) {
+			if (v === '') {
+				alert(`Incorrect ${k} provided ...`)
+				return
+			}
+		}
+
+		console.log(loginData)
+		// axios request for login
+	}
 
 	return (
 		<>
@@ -35,7 +50,7 @@ function LoginPage() {
 				</FormControl>
 
 				<div className={classes.actions}>
-					<Button onClick={() => {}}> Login </Button>
+					<Button onClick={loginHandler}> Login </Button>
 				</div>
 			</div>
 		</>
