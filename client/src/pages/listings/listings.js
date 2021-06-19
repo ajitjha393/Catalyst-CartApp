@@ -14,7 +14,7 @@ function Listings({ listings, setListings }) {
 				})
 				.catch((err) => console.log(err))
 		}
-	}, [])
+	}, [listings.length, setListings])
 
 	let mappedCatalogue = null
 	if (listings) {
