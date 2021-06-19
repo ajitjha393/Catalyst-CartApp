@@ -26,7 +26,7 @@ function Products({ listings }) {
 		const { firstName, lastName } = productList[0].userId
 		name = firstName + ' ' + lastName
 	} else {
-		history.push('/')
+		history.push('/catalogue')
 	}
 
 	const editProduct = (prodId) => {

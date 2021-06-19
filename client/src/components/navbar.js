@@ -21,11 +21,11 @@ export default () => {
 				setMainItems((prev) => setItemActive(prev, item))
 				if (item.label === 'Admin Products') {
 					history.push({
-						pathname: '/60cc78ee041ad9f592275026',
+						pathname: '/catalogue/60cc78ee041ad9f592275026',
 						search: '?edit=true',
 					})
 				} else {
-					history.push('/')
+					history.push('/catalogue')
 				}
 			}}
 			username="Bishwajit Jha"
