@@ -1,0 +1,17 @@
+.Container {
+	display: flex;
+	align-items: center;
+}
+
+.Container .Content {
+	padding: 0 1rem;
+	text-align: justify;
+}
+
+.Content div span {
+	font-weight: bold;
+}
+
+.Content div {
+	margin-bottom: 0.5rem;
+}
