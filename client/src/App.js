@@ -5,6 +5,9 @@ import Listings from './pages/listings/listings'
 import Products from './pages/products/products'
 import Navbar from './components/navbar'
 import NewProduct from './pages/new-product/new-product'
+import Login from './pages/login/login'
+import SignUp from './pages/signup/signup'
+
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 function App() {
@@ -24,6 +27,12 @@ function App() {
 						</Route>
 						<Route exact path="/new-product">
 							<NewProduct />
+						</Route>
+						<Route exact path="/login">
+							<Login />
+						</Route>
+						<Route exact path="/signup">
+							<SignUp />
 						</Route>
 					</Switch>
 				</div>
