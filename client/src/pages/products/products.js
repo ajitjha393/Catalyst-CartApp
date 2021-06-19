@@ -7,7 +7,9 @@ import classes from './products.module.css'
 
 function Products({ listings }) {
 	const [isOpen, setIsOpen] = useState(false)
-	const [prodDetail, setProdDetail] = useState(null)
+	const [del, setDel] = useState(false)
+
+	const [prodId, setProdId] = useState(null)
 
 	const { userId } = useParams()
 	const { search } = useLocation()
@@ -27,11 +29,14 @@ function Products({ listings }) {
 		history.push('/')
 	}
 
-	const editProduct = (prodDetail) => {
-		setProdDetail(prodDetail)
+	const editProduct = (prodId) => {
+		setProdId(prodId)
+		setDel(false)
 		setIsOpen(true)
 	}
-	const deleteProduct = () => {
+	const deleteProduct = (prodId) => {
+		setProdId(prodId)
+		setDel(true)
 		setIsOpen(true)
 	}
 
@@ -49,7 +54,12 @@ function Products({ listings }) {
 					/>
 				))}
 			</div>
-			<Modal open={isOpen} setOpen={setIsOpen} prodDetail={prodDetail} />
+			<Modal
+				open={isOpen}
+				setOpen={setIsOpen}
+				prodId={prodId}
+				del={del}
+			/>
 		</div>
 	)
 }

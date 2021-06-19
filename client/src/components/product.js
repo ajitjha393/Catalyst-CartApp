@@ -14,6 +14,7 @@ function Product(props) {
 		edit,
 		editProduct,
 		deleteProduct,
+		_id,
 	} = props
 
 	let actionBtn = (
@@ -24,10 +25,10 @@ function Product(props) {
 	if (edit) {
 		actionBtn = (
 			<div className={classes.IconContainer}>
-				<span onClick={() => editProduct({ price, quantity })}>
+				<span onClick={() => editProduct(_id)}>
 					<FaEdit />
 				</span>
-				<span onClick={() => deleteProduct()}>
+				<span onClick={() => deleteProduct(_id)}>
 					<RiDeleteBin5Fill />
 				</span>
 			</div>
