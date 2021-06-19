@@ -1,4 +1,15 @@
 .header {
 	margin: 1rem;
 	text-align: center;
+	text-decoration: underline;
+}
+
+.form {
+	margin: 1.5rem auto;
+	width: 80%;
+}
+
+.prompt {
+	text-align: center;
+	font-size: 1.2rem;
 }

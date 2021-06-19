@@ -1,16 +1,74 @@
-import * as React from 'react'
-import {
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalButton,
-	SIZE,
-	ROLE,
-} from 'baseui/modal'
+import { useState } from 'react'
+import { Modal, ModalFooter, ModalButton, SIZE, ROLE } from 'baseui/modal'
+import { FormControl } from 'baseui/form-control'
+import { Input } from 'baseui/input'
 import { KIND as ButtonKind } from 'baseui/button'
+import { connect } from 'react-redux'
 import classes from './product-modal.module.css'
+import axios from 'axios'
 
-function ProductModal({ open, setOpen }) {
+const BASE_ENDPOINT = 'http://localhost:8080/product'
+
+function ProductModal({ open, setOpen, prodId, del, setListings }) {
+	const [price, setPrice] = useState('')
+	const [quantity, setQuantity] = useState('')
+
+	const editProduct = () => {
+		setOpen(false)
+		console.log({
+			price,
+			quantity,
+			prodId,
+		})
+		axios
+			.patch(`${BASE_ENDPOINT}/${prodId}`, {
+				price,
+				quantity,
+			})
+			.then(({ data }) => {
+				// will add spinner here
+				console.log(data)
+				setListings(data.allProducts)
+			})
+			.catch((err) => console.log(err))
+	}
+
+	const deleteProduct = () => {
+		console.log('Deleting...', prodId)
+	}
+
+	let compBody = null
+	if (del) {
+		compBody = (
+			<div className={classes.prompt}>
+				Are you sure you want to delete this Product ?
+			</div>
+		)
+	} else {
+		compBody = (
+			<>
+				<FormControl label="Price (Rs)">
+					<Input
+						id="input-id"
+						value={price}
+						onChange={(event) =>
+							setPrice(event.currentTarget.value)
+						}
+					/>
+				</FormControl>
+				<FormControl label="Quantity">
+					<Input
+						id="input-id"
+						value={quantity}
+						onChange={(event) =>
+							setQuantity(event.currentTarget.value)
+						}
+					/>
+				</FormControl>
+			</>
+		)
+	}
+
 	return (
 		<Modal
 			onClose={() => setOpen(false)}
@@ -22,11 +80,7 @@ function ProductModal({ open, setOpen }) {
 			role={ROLE.dialog}
 		>
 			<h2 className={classes.header}> Edit Product Detail</h2>
-			<ModalBody>
-				Proin ut dui sed metus pharetra hend rerit vel non mi. Nulla
-				ornare faucibus ex, non facilisis nisl. Maecenas aliquet mauris
-				ut tempus.
-			</ModalBody>
+			<div className={classes.form}>{compBody}</div>
 			<ModalFooter>
 				<ModalButton
 					kind={ButtonKind.tertiary}
@@ -34,10 +88,16 @@ function ProductModal({ open, setOpen }) {
 				>
 					Cancel
 				</ModalButton>
-				<ModalButton>Save</ModalButton>
+				<ModalButton onClick={del ? deleteProduct : editProduct}>
+					{' '}
+					{del ? 'Delete' : 'Save'}
+				</ModalButton>
 			</ModalFooter>
 		</Modal>
 	)
 }
 
-export default ProductModal
+const mapDispatch = (dispatch) => ({
+	setListings: (listing) => dispatch.product.setListings(listing),
+})
+export default connect(null, mapDispatch)(ProductModal)
