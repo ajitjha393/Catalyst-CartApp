@@ -1,4 +1,4 @@
-import { Card, StyledBody, StyledAction } from 'baseui/card'
+import { Card } from 'baseui/card'
 import classes from './user-catalogue.module.css'
 import { random } from '../utils/random'
 import { useHistory } from 'react-router-dom'
@@ -10,6 +10,7 @@ const cardStyles = {
 			margin: '2rem auto',
 			maxWidth: '40rem',
 			boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+			cursor: 'pointer',
 		},
 	},
 }
