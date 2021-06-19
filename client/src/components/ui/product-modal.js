@@ -35,6 +35,15 @@ function ProductModal({ open, setOpen, prodId, del, setListings }) {
 
 	const deleteProduct = () => {
 		console.log('Deleting...', prodId)
+		setOpen(false)
+		axios
+			.delete(`${BASE_ENDPOINT}/${prodId}`)
+			.then(({ data }) => {
+				// will add spinner here
+				console.log(data)
+				setListings(data.allProducts)
+			})
+			.catch((err) => console.log(err))
 	}
 
 	let compBody = null
