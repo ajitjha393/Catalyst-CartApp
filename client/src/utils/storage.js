@@ -28,5 +28,6 @@ export function getWithExpiry(key) {
 		localStorage.removeItem(key)
 		return null
 	}
-	return { token: item.token, userId: item.userId }
+	const { token, userId, fullName, email } = item
+	return { token, userId, fullName, email }
 }

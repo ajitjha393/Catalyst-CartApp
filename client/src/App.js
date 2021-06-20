@@ -8,7 +8,7 @@ import SignUp from './pages/signup/signup'
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 function App({ authenticated, verifyToken }) {
 	useEffect(() => {
@@ -18,29 +18,43 @@ function App({ authenticated, verifyToken }) {
 		}
 	}, [authenticated, verifyToken])
 
+	let routes = (
+		<Switch>
+			<Route exact path="/login">
+				<Login />
+			</Route>
+			<Route exact path="/signup">
+				<SignUp />
+			</Route>
+			<Redirect to="/" />
+		</Switch>
+	)
+
+	if (authenticated) {
+		routes = (
+			<Switch>
+				<Route exact path="/catalogue">
+					<Listings />
+				</Route>
+				<Route exact path="/catalogue/:userId">
+					<Products />
+				</Route>
+				<Route exact path="/new-product">
+					<NewProduct />
+				</Route>
+				<Redirect to="/" />
+			</Switch>
+		)
+	}
+
 	return (
 		<BrowserRouter>
 			<div className="App">
 				<header>
 					<Navbar />
 				</header>
-				<Switch>
-					<Route exact path="/catalogue">
-						<Listings />
-					</Route>
-					<Route exact path="/catalogue/:userId">
-						<Products />
-					</Route>
-					<Route exact path="/new-product">
-						<NewProduct />
-					</Route>
-					<Route exact path="/login">
-						<Login />
-					</Route>
-					<Route exact path="/signup">
-						<SignUp />
-					</Route>
-				</Switch>
+
+				{routes}
 			</div>
 		</BrowserRouter>
 	)
