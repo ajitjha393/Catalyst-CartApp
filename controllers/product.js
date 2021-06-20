@@ -26,7 +26,8 @@ exports.addProduct = async (req, res, next) => {
 			createError(422, 'Validation Failed, Entered Data is incorrect')
 		}
 		// Will get this from auth middleware after extracting it, for now harcoding it
-		const userId = '60cc78ee041ad9f592275026'
+		// const userId = '60cc78ee041ad9f592275026'
+		const userId = req.userId
 
 		const { title, price, description, imageUrl, quantity } = req.body
 
@@ -61,7 +62,8 @@ exports.updateProduct = async (req, res, next) => {
 		}
 
 		// Will get this from auth middleware after extracting it, for now harcoding it
-		const userId = '60cc78ee041ad9f592275026'
+		// const userId = '60cc78ee041ad9f592275026'
+		const userId = req.userId
 
 		const { productId } = req.params
 
@@ -100,7 +102,9 @@ exports.deleteProduct = async (req, res, next) => {
 		const { productId } = req.params
 
 		// Will get this from auth middleware after extracting it, for now harcoding it
-		const userId = '60cc78ee041ad9f592275026'
+		// const userId = '60cc78ee041ad9f592275026'
+		const userId = req.userId
+		console.log(userId)
 
 		const product = await Product.findById(productId)
 		if (!product) {

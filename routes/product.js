@@ -1,4 +1,5 @@
 const { Router } = require('express')
+const isAuth = require('../middleware/is-auth')
 
 const {
 	addProduct,
@@ -9,9 +10,9 @@ const {
 
 const router = Router()
 
-router.get('/', getAllProducts)
-router.post('/', addProduct)
-router.patch('/:productId', updateProduct)
-router.delete('/:productId', deleteProduct)
+router.get('/', isAuth, getAllProducts)
+router.post('/', isAuth, addProduct)
+router.patch('/:productId', isAuth, updateProduct)
+router.delete('/:productId', isAuth, deleteProduct)
 
 module.exports = router

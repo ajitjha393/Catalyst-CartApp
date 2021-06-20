@@ -13,7 +13,6 @@ exports.signupValidator = [
 ]
 
 exports.loginValidator = [
-	,
 	body('email')
 		.isEmail()
 		.withMessage('Please Enter a Valid Email')
