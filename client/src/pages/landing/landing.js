@@ -4,7 +4,11 @@ import classes from './landing.module.css'
 function LandingPage() {
 	return (
 		<div className={classes.ImageContainer}>
-			<img src={CatalystImg} alt="Catalyst Logo" />
+			<img
+				className={classes.img}
+				src={CatalystImg}
+				alt="Catalyst Logo"
+			/>
 		</div>
 	)
 }

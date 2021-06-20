@@ -8,6 +8,7 @@ import SignUp from './pages/signup/signup'
 import Landing from './pages/landing/landing'
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
+import Activate from './pages/activate/activate'
 
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
@@ -29,6 +30,9 @@ function App({ authenticated, verifyToken }) {
 			</Route>
 			<Route exact path="/signup">
 				<SignUp />
+			</Route>
+			<Route exact path="/activate-account/:token">
+				<Activate />
 			</Route>
 			<Redirect to="/" />
 		</Switch>

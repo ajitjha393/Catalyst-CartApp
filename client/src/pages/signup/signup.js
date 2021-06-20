@@ -4,12 +4,16 @@ import { FormControl } from 'baseui/form-control'
 import { Input } from 'baseui/input'
 import classes from '../login/login.module.css'
 
+import Spinner from '../../components/ui/spinner'
+import axios from 'axios'
+
 function SignUpPage() {
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
+	const [loading, setLoading] = useState(false)
 
 	const signUpHandler = () => {
 		// Added basic validation
@@ -30,10 +34,28 @@ function SignUpPage() {
 			}
 		}
 		console.log(signupData)
+		setLoading(true)
+
 		// axios request for login
+		axios
+			.post('http://localhost:8080/auth/register', signupData)
+			.then(({ data }) => {
+				console.log(data)
+				setLoading(false)
+				alert('Check your mail to verify your account!')
+			})
+			.catch((err) => {
+				setLoading(false)
+				console.log(err)
+				alert('Something went wromg try again...')
+			})
+
+		// axios request for signup
 	}
 
-	return (
+	return loading ? (
+		<Spinner />
+	) : (
 		<>
 			<h2 className={classes.header}>User Registeration !</h2>
 			<div className={classes.form}>
