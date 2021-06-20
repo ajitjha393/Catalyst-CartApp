@@ -1,53 +1,36 @@
 import { setWithExpiry, getWithExpiry } from '../../utils/storage'
+import { createNewAuthStateObj } from '../../utils/helpers'
 
 export const user = {
 	state: {
 		authenticated: false,
 		token: null,
 		userId: null,
+		fullName: null,
+		email: null,
 	},
 	reducers: {
 		setAuthToken(state, { token, userId }) {
 			let val = getWithExpiry('AuthToken')
 			if (!val) {
-				setWithExpiry('AuthToken', { token, userId }, 20000)
-				val = { token, userId }
+				val = { token, userId, fullName, email }
+				setWithExpiry('AuthToken', val, 20000)
 			}
 
-			return {
-				...state,
-				authenticated: true,
-				token: val.token,
-				userId: val.userId,
-			}
+			return createNewAuthStateObj(true, val)
 		},
 
 		verifyExistingToken(state, payload) {
 			let val = getWithExpiry('AuthToken')
 			if (!val) {
-				return {
-					...state,
-					authenticated: false,
-					token: null,
-					userId: null,
-				}
+				return createNewAuthStateObj(false)
 			}
-			return {
-				...state,
-				authenticated: true,
-				token: val.token,
-				userId: val.userId,
-			}
+			return createNewAuthStateObj(true, val)
 		},
 
 		logout(state, payload) {
 			localStorage.removeItem('AuthToken')
-			return {
-				...state,
-				authenticated: false,
-				token: null,
-				userId: null,
-			}
+			return createNewAuthStateObj(false)
 		},
 	},
 }

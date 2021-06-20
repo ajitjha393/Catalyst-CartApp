@@ -14,3 +14,19 @@ export function filterListingByUser(listings) {
 
 	return filteredListing
 }
+
+export function createNewAuthStateObj(auth, val) {
+	if (auth) {
+		return {
+			authenticated: true,
+			...val,
+		}
+	}
+	return {
+		authenticated: false,
+		token: null,
+		userId: null,
+		fullName: null,
+		email: null,
+	}
+}
