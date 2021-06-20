@@ -6,12 +6,14 @@ import classes from './login.module.css'
 
 import { connect } from 'react-redux'
 import Spinner from '../../components/ui/spinner'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 function LoginPage({ setAuthToken }) {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [loading, setLoading] = useState(false)
+	const history = useHistory()
 
 	const loginHandler = () => {
 		// Added basic validation
@@ -34,8 +36,10 @@ function LoginPage({ setAuthToken }) {
 			.post('http://localhost:8080/auth/login', loginData)
 			.then(({ data }) => {
 				console.log(data)
+				const { token, userId, fullName, email } = data
 				setLoading(false)
-				setAuthToken({ token: data.token, userId: data.userId })
+				setAuthToken({ token, userId, fullName, email })
+				history.push('/catalogue')
 			})
 			.catch((err) => {
 				setLoading(false)

@@ -110,12 +110,12 @@ exports.login = async (req, res, next) => {
 
 		const token = user.getSignedJwtToken()
 		const { _id, firstName, lastName } = user
-		const name = `${firstName} ${lastName}`
+		const fullName = `${firstName} ${lastName}`
 
 		return res.status(200).json({
 			userId: _id.toString(),
 			token,
-			name,
+			fullName,
 			email,
 		})
 	} catch (err) {

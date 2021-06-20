@@ -1,4 +1,4 @@
-export function setWithExpiry(key, { token, userId }, ttl) {
+export function setWithExpiry(key, { token, userId, fullName, email }, ttl) {
 	const now = new Date()
 
 	// `item` is an object which contains the original value
@@ -6,6 +6,8 @@ export function setWithExpiry(key, { token, userId }, ttl) {
 	const item = {
 		token,
 		userId,
+		fullName,
+		email,
 		expiry: now.getTime() + ttl,
 	}
 	localStorage.setItem(key, JSON.stringify(item))

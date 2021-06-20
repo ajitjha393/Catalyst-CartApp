@@ -10,11 +10,11 @@ export const user = {
 		email: null,
 	},
 	reducers: {
-		setAuthToken(state, { token, userId }) {
+		setAuthToken(state, authPayload) {
 			let val = getWithExpiry('AuthToken')
 			if (!val) {
-				val = { token, userId, fullName, email }
-				setWithExpiry('AuthToken', val, 20000)
+				val = authPayload
+				setWithExpiry('AuthToken', val, 60 * 1000)
 			}
 
 			return createNewAuthStateObj(true, val)
