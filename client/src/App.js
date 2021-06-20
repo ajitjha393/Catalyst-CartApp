@@ -5,6 +5,7 @@ import Navbar from './components/navbar'
 import NewProduct from './pages/new-product/new-product'
 import Login from './pages/login/login'
 import SignUp from './pages/signup/signup'
+import Landing from './pages/landing/landing'
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 
@@ -20,6 +21,9 @@ function App({ authenticated, verifyToken }) {
 
 	let routes = (
 		<Switch>
+			<Route exact path="/">
+				<Landing />
+			</Route>
 			<Route exact path="/login">
 				<Login />
 			</Route>
@@ -33,6 +37,9 @@ function App({ authenticated, verifyToken }) {
 	if (authenticated) {
 		routes = (
 			<Switch>
+				<Route exact path="/">
+					<Landing />
+				</Route>
 				<Route exact path="/catalogue">
 					<Listings />
 				</Route>

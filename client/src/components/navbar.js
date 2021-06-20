@@ -5,6 +5,10 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 let authNavLink = [
+	{
+		icon: ArrowRight,
+		label: 'HomePage',
+	},
 	{ icon: ArrowRight, label: 'Catalogue', active: true },
 	{ icon: ArrowRight, label: 'Add Product' },
 	{
@@ -18,6 +22,11 @@ let authNavLink = [
 ]
 
 let NavLink = [
+	{
+		icon: ArrowRight,
+		label: 'HomePage',
+		active: true,
+	},
 	{
 		icon: ArrowRight,
 		label: 'Login',
@@ -89,6 +98,10 @@ function Navbar({ isAuthenticated, fullName, email, logout }) {
 					}
 					case 'Cart': {
 						history.push('/cart')
+						break
+					}
+					case 'HomePage': {
+						history.push('/')
 						break
 					}
 				}
