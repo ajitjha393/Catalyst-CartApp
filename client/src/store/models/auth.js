@@ -14,7 +14,7 @@ export const user = {
 			let val = getWithExpiry('AuthToken')
 			if (!val) {
 				val = authPayload
-				setWithExpiry('AuthToken', val, 60 * 1000)
+				setWithExpiry('AuthToken', val, 50 * 60 * 1000)
 			}
 
 			return createNewAuthStateObj(true, val)

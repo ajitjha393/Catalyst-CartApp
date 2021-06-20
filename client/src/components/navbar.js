@@ -8,8 +8,9 @@ let authNavLink = [
 	{
 		icon: ArrowRight,
 		label: 'HomePage',
+		active: true,
 	},
-	{ icon: ArrowRight, label: 'Catalogue', active: true },
+	{ icon: ArrowRight, label: 'Catalogue' },
 	{ icon: ArrowRight, label: 'Add Product' },
 	{
 		icon: ArrowRight,
@@ -37,7 +38,7 @@ let NavLink = [
 	},
 ]
 
-function Navbar({ isAuthenticated, fullName, email, logout }) {
+function Navbar({ isAuthenticated, fullName, email, logout, userId }) {
 	const history = useHistory()
 	const [mainItems, setMainItems] = useState(NavLink)
 
@@ -73,7 +74,7 @@ function Navbar({ isAuthenticated, fullName, email, logout }) {
 				switch (item.label) {
 					case 'Admin Products': {
 						history.push({
-							pathname: '/catalogue/60cc78ee041ad9f592275026',
+							pathname: '/catalogue/' + userId,
 							search: '?edit=true',
 						})
 						break
@@ -123,6 +124,7 @@ const mapState = (state) => ({
 	isAuthenticated: state.user.authenticated,
 	fullName: state.user.fullName,
 	email: state.user.email,
+	userId: state.user.userId,
 })
 
 const mapDispatch = (dispatch) => ({

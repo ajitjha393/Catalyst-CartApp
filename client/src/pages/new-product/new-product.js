@@ -11,7 +11,7 @@ import Spinner from '../../components/ui/spinner'
 
 const BASE_ENDPOINT = 'http://localhost:8080/product'
 
-function NewProduct({ setListings }) {
+function NewProduct({ setListings, token }) {
 	const [title, setTitle] = useState('')
 	const [price, setPrice] = useState('')
 	const [quantity, setQuantity] = useState('')
@@ -44,7 +44,12 @@ function NewProduct({ setListings }) {
 		setLoading(true)
 
 		axios
-			.post(BASE_ENDPOINT, product)
+			.post(BASE_ENDPOINT, product, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+			})
 			.then(({ data }) => {
 				console.log(data)
 				setLoading(false)
@@ -132,7 +137,11 @@ function NewProduct({ setListings }) {
 	)
 }
 
+const mapState = (state) => ({
+	token: state.user.token,
+})
+
 const mapDispatch = (dispatch) => ({
 	setListings: (listing) => dispatch.product.setListings(listing),
 })
-export default connect(null, mapDispatch)(NewProduct)
+export default connect(mapState, mapDispatch)(NewProduct)

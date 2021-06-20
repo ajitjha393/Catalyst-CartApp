@@ -3,11 +3,16 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import UserCatalogue from '../../components/user-catalogue'
 
-function Listings({ listings, setListings }) {
+function Listings({ listings, setListings, token }) {
 	useEffect(() => {
 		if (listings.length === 0) {
 			axios
-				.get('http://localhost:8080/product')
+				.get('http://localhost:8080/product', {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'Bearer ' + token,
+					},
+				})
 				.then(({ data }) => {
 					console.log(data)
 					setListings(data.products)
@@ -42,6 +47,7 @@ function Listings({ listings, setListings }) {
 
 const mapState = (state) => ({
 	listings: state.product,
+	token: state.user.token,
 })
 
 const mapDispatch = (dispatch) => ({

@@ -9,7 +9,15 @@ import axios from 'axios'
 
 const BASE_ENDPOINT = 'http://localhost:8080/product'
 
-function ProductModal({ open, setOpen, prodId, del, setListings, setLoading }) {
+function ProductModal({
+	open,
+	setOpen,
+	prodId,
+	del,
+	setListings,
+	setLoading,
+	token,
+}) {
 	const [price, setPrice] = useState('')
 	const [quantity, setQuantity] = useState('')
 
@@ -39,10 +47,19 @@ function ProductModal({ open, setOpen, prodId, del, setListings, setLoading }) {
 		setLoading(true)
 
 		axios
-			.patch(`${BASE_ENDPOINT}/${prodId}`, {
-				price,
-				quantity,
-			})
+			.patch(
+				`${BASE_ENDPOINT}/${prodId}`,
+				{
+					price,
+					quantity,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'Bearer ' + token,
+					},
+				}
+			)
 			.then(({ data }) => {
 				console.log(data)
 				setLoading(false)
@@ -55,8 +72,15 @@ function ProductModal({ open, setOpen, prodId, del, setListings, setLoading }) {
 		console.log('Deleting...', prodId)
 		setOpen(false)
 		setLoading(true)
+		console.log('...', token)
+
 		axios
-			.delete(`${BASE_ENDPOINT}/${prodId}`)
+			.delete(`${BASE_ENDPOINT}/${prodId}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+			})
 			.then(({ data }) => {
 				setLoading(false)
 				console.log(data)
@@ -125,7 +149,11 @@ function ProductModal({ open, setOpen, prodId, del, setListings, setLoading }) {
 	)
 }
 
+const mapState = (state) => ({
+	token: state.user.token,
+})
+
 const mapDispatch = (dispatch) => ({
 	setListings: (listing) => dispatch.product.setListings(listing),
 })
-export default connect(null, mapDispatch)(ProductModal)
+export default connect(mapState, mapDispatch)(ProductModal)
