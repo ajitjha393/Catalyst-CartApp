@@ -8,9 +8,8 @@ let authNavLink = [
 	{
 		icon: ArrowRight,
 		label: 'HomePage',
-		active: true,
 	},
-	{ icon: ArrowRight, label: 'Catalogue' },
+	{ icon: ArrowRight, label: 'Catalogue', active: true },
 	{ icon: ArrowRight, label: 'Add Product' },
 	{
 		icon: ArrowRight,
@@ -108,14 +107,6 @@ function Navbar({ isAuthenticated, fullName, email, logout, userId }) {
 				}
 			}}
 			{...userDetail}
-			// username="Bishwajit Jha"
-			// usernameSubtitle="ajitjha393@gmail.com"
-			// userItems={[{ icon: Overflow, label: 'Logout' }]}
-			// onUserItemSelect={() => {
-			// 	console.log('Logging out...')
-			// 	logout()
-			// 	history.push('/')
-			// }}
 		/>
 	)
 }

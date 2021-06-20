@@ -15,7 +15,7 @@ const cardStyles = {
 	},
 }
 
-function UserCatalogue({ userId, productCount, name }) {
+function UserCatalogue({ userId, productCount, name, email }) {
 	const history = useHistory()
 	const viewCatalogue = () => {
 		history.push(`/catalogue/${userId}`)
@@ -38,6 +38,9 @@ function UserCatalogue({ userId, productCount, name }) {
 						</div>
 						<div>
 							<span>Products</span> : {productCount}
+						</div>
+						<div>
+							<span>Email</span> : {email}
 						</div>
 
 						<div>

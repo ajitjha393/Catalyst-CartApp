@@ -25,13 +25,15 @@ function Listings({ listings, setListings, token }) {
 	if (listings) {
 		mappedCatalogue = listings.map((catalogue) => {
 			const [userId] = Object.keys(catalogue)
-			const { firstName, lastName } = catalogue[userId][0]['userId']
+			const { firstName, lastName, email } =
+				catalogue[userId][0]['userId']
 			return (
 				<UserCatalogue
 					key={userId}
 					userId={userId}
 					productCount={catalogue[userId].length}
 					name={firstName + ' ' + lastName}
+					email={email}
 				/>
 			)
 		})
@@ -39,7 +41,7 @@ function Listings({ listings, setListings, token }) {
 
 	return (
 		<div>
-			<h1>Product Listings...</h1>
+			<h1 style={{ marginTop: '2rem' }}>Product Listings...</h1>
 			{mappedCatalogue}
 		</div>
 	)
