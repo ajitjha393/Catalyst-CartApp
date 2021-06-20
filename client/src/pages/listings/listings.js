@@ -7,7 +7,7 @@ function Listings({ listings, setListings, token }) {
 	useEffect(() => {
 		if (listings.length === 0) {
 			axios
-				.get('http://localhost:8080/product', {
+				.get(`${process.env.REACT_APP_API_URL}/product`, {
 					headers: {
 						'Content-Type': 'application/json',
 						Authorization: 'Bearer ' + token,

@@ -14,7 +14,7 @@ function Activate() {
 			activateToken: token,
 		}
 		axios
-			.post('http://localhost:8080/auth/activate', body)
+			.post(`${process.env.REACT_APP_API_URL}/auth/activate`, body)
 			.then(({ data }) => {
 				console.log(data)
 				setLoading(false)

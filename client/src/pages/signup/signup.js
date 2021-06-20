@@ -38,7 +38,7 @@ function SignUpPage() {
 
 		// axios request for login
 		axios
-			.post('http://localhost:8080/auth/register', signupData)
+			.post(`${process.env.REACT_APP_API_URL}/auth/register`, signupData)
 			.then(({ data }) => {
 				console.log(data)
 				setLoading(false)

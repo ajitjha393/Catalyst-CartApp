@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import classes from './product-modal.module.css'
 import axios from 'axios'
 
-const BASE_ENDPOINT = 'http://localhost:8080/product'
+const BASE_ENDPOINT = `${process.env.REACT_APP_API_URL}/product`
 
 function ProductModal({
 	open,

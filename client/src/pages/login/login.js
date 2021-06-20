@@ -33,7 +33,7 @@ function LoginPage({ setAuthToken }) {
 
 		// axios request for login
 		axios
-			.post('http://localhost:8080/auth/login', loginData)
+			.post(`${process.env.REACT_APP_API_URL}/auth/login`, loginData)
 			.then(({ data }) => {
 				console.log(data)
 				const { token, userId, fullName, email } = data
